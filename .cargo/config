@@ -10,4 +10,4 @@ target = "thumbv6m-none-eabi"
 
 [alias]
 br = "build --release"
-stackcheck = "stack-sizes --release --bin rust-app --target=thumbv6m-none-eabi"
+stackcheck = "stack-sizes --release --bin nanopass --target=thumbv6m-none-eabi"

@@ -18,7 +18,7 @@ rec {
         nanos_sdk = _: {
           RUSTC_BOOTSTRAP = true;
         };
-        rust-app = attrs: let
+        nanopass = attrs: let
           sdk = lib.findFirst (p: lib.hasPrefix "rust_nanos_sdk" p.name) (builtins.throw "no sdk!") attrs.dependencies;
         in {
           preHook = ledger-platform.gccLibsPreHook;
