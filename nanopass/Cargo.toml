@@ -15,6 +15,10 @@ nanos_ui = { git = "https://github.com/LedgerHQ/ledger-nanos-ui.git" }
 cty = "0.2.0"
 heapless = "0.5.6"
 
+[patch."https://github.com/LedgerHQ/ledger-nanos-sdk.git".nanos_sdk]
+git = "https://github.com/ObsidianSystems/ledger-nanos-sdk.git"
+branch = "use-ambient-compiler-and-target"
+
 [dependencies.block-modes]
 version = "0.7.0"
 default-features = false

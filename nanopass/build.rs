@@ -16,7 +16,6 @@ extern crate bindgen;
 extern crate cc;
 use std::env;
 use std::path::PathBuf;
-use std::process::Command;
 
 fn main() {
     let bindings = bindgen::Builder::default()
@@ -32,26 +31,8 @@ fn main() {
         )
         .expect("Could'nt write bindings");
 
-    let output = Command::new("arm-none-eabi-gcc")
-        .arg("-print-sysroot")
-        .output()
-        .expect("failed");
-
-    let sysroot = std::str::from_utf8(&output.stdout).unwrap().trim();
-    let gcc_toolchain = if sysroot.is_empty() {
-        String::from("/usr/include/")
-    } else {
-        format!("{}/include", sysroot)
-    };
-
-    println!("{:?}", output.stderr);
-    assert!(output.status.success());
-
     cc::Build::new()
-        .compiler("clang")
-        .target("thumbv6m-none-eabi")
         .file("./src/c/aes.c")
-        .include(gcc_toolchain)
         // More or less same flags as in the C SDK Makefile.defines
         .no_default_flags(true)
         .pic(true)
