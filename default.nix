@@ -7,8 +7,10 @@ rec {
     crate2nix
     buildRustCrateForPkgsLedger;
 
+  LIBCLANG_PATH = ledgerPkgs.buildPackages.llvmPackages.clang-unwrapped.lib + "/lib";
+
   shell = lib.overrideDerivation ledger-platform.rustShell (_: {
-    LIBCLANG_PATH = ledgerPkgs.buildPackages.llvmPackages.clang-unwrapped.lib + "/lib";
+    inherit LIBCLANG_PATH;
   });
 
   app = import ./Cargo.nix {
@@ -22,6 +24,7 @@ rec {
           sdk = lib.findFirst (p: lib.hasPrefix "rust_nanos_sdk" p.name) (builtins.throw "no sdk!") attrs.dependencies;
         in {
           preHook = ledger-platform.gccLibsPreHook;
+          inherit LIBCLANG_PATH;
           extraRustcOpts = [
             "-C" "relocation-model=ropi"
             "-C" "link-arg=-T${sdk.lib}/lib/nanos_sdk.out/script.ld"
